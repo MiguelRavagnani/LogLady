@@ -10,11 +10,11 @@ namespace loglady::level {
      */
     enum class LevelType : uint32_t {
         INFO  = 0x01, // Core information
-        WARN  = 0x02, // Runtime warning
-        TRACE = 0x04, // High level debug
-        DEBUG = 0x08, // Low level debug
-        ERROR = 0x10, // Function/method error
-        FATAL = 0x20, // Runtime error
+        WARN  = 0x03, // Runtime warning
+        ERROR = 0x07, // Function/method error
+        FATAL = 0x0F, // Runtime error
+        TRACE = 0x1F, // High level debug
+        DEBUG = 0x3F, // Low level debug
         ALL   = 0xFF, // Complete combined information
     };
 
@@ -87,6 +87,6 @@ namespace loglady::level {
         LevelType param_target_level) {
         return ((param_input_level & param_target_level) == param_target_level) ? true : false;
     }
-}
+} // loglady::level
 
 #endif // _LEVELS_
