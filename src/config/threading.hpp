@@ -3,7 +3,15 @@
 
 #include <mutex>
 
-namespace loglady::config
+#if CXX_VERSION == 17
+#define MUTEX_LOCK std::scoped_lock
+#else
+#define MUTEX_LOCK std::lock_guard
+#endif
+
+namespace loglady
+{
+namespace config
 {
     /**
      * @brief Provides a null mutex configuration for single threading
@@ -17,6 +25,15 @@ namespace loglady::config
             return true;
         }
 	};
-} // namespace loglady::config
+
+    template<typename Mutex>
+	struct threading
+	{
+		using mutex_t = Mutex;
+
+		using lock = MUTEX_LOCK<Mutex>;
+	};
+} // namespace config
+} // namespace loglady
 
 #endif // _THREADING_

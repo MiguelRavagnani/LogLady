@@ -4,7 +4,8 @@
 #include <stdint.h>
 #include <type_traits>
 
-namespace loglady::level {
+namespace loglady {
+namespace levels {
     /**
      * @brief Level configuration
      */
@@ -87,6 +88,7 @@ namespace loglady::level {
         LevelType param_target_level) {
         return ((param_input_level & param_target_level) == param_target_level) ? true : false;
     }
-} // loglady::level
+} // namespace levels
+} // namespace loglady
 
 #endif // _LEVELS_
