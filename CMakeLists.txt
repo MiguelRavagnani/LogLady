@@ -43,28 +43,18 @@ endif()
 
 set(LOCAL_INCLUDE_DIRS
     "${CMAKE_SOURCE_DIR}/src"
-    "${CMAKE_SOURCE_DIR}/src/config")
+    "${CMAKE_SOURCE_DIR}/src/config"
+    "${CMAKE_SOURCE_DIR}/src/formatter"
+    )
 
 include_directories(${LOCAL_INCLUDE_DIRS})
 
 IF (${CMAKE_CXX_STANDARD} MATCHES "11")
     include("${CMAKE_CURRENT_LIST_DIR}/test/try_compile/cxx_11.cmake")
-    # option(CPP_11 "C++11" ON)
-    # add_library(levels src/levels.hpp)
-    # add_library(threading src/config/threading.hpp)
-    # target_compile_definitions(threading PUBLIC CPP_11)
 elseif (${CMAKE_CXX_STANDARD} MATCHES "14")
     include("${CMAKE_CURRENT_LIST_DIR}/test/try_compile/cxx_14.cmake")
-    # option(CPP_14 "C++14" ON)
-    # add_library(levels src/levels.hpp)
-    # add_library(threading src/config/threading.hpp)
-    # target_compile_definitions(threading PUBLIC CPP_14)
 elseif (${CMAKE_CXX_STANDARD} MATCHES "17")
     include("${CMAKE_CURRENT_LIST_DIR}/test/try_compile/cxx_17.cmake")
-    # option(CPP_17 "C++17" ON)
-    # add_library(levels src/levels.hpp)
-    # add_library(threading src/config/threading.hpp)
-    # target_compile_definitions(threading PUBLIC CPP_17)
 else()
     message(SEND_ERROR "Please check that your compiler supports at least C++11 features and C++11 standard enabled.")
 endif()
@@ -76,7 +66,11 @@ add_compile_definitions(CXX_VERSION=${CMAKE_CXX_STANDARD})
 #-----------------------------------------------------------------#
 
 set(SOURCE_FILES
-    "${CMAKE_SOURCE_DIR}/src/logger.cpp")
+    "${CMAKE_SOURCE_DIR}/src/logger.cpp"
+    "${CMAKE_SOURCE_DIR}/src/formatter/formatter.cpp"
+    "${CMAKE_SOURCE_DIR}/src/formatter/formatter_wrapper.cpp"
+    "${CMAKE_SOURCE_DIR}/src/formatter/datetime_wrapper.cpp"
+    )
 
 add_executable(loglady ${SOURCE_FILES})
 
