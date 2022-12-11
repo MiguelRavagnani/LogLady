@@ -19,6 +19,9 @@ public:
      * @return void Formated string
      */
     void Format(std::string& param_message) const override;
+
+protected:
+    
 };
 
 } // namespace formatter

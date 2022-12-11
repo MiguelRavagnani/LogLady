@@ -5,7 +5,7 @@ namespace formatter {
 
 void DatetimeWrapper::Format(std::string& param_message) const {
     
-    param_message = "[d/m/y_hh:mm:ss] " + param_message;
+    param_message = "[dd/mm/yy] [hh:mm:ss] " + param_message;
     
     FormatterWrapper::Format(param_message);
     return; 
