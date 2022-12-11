@@ -13,6 +13,13 @@ namespace formatter {
 
 Format ConfigFormatter(std::string& param_configuration);
 
+/**
+ * @brief Abstracts the building of the formatter
+ * 
+ * @param param_format Plug in the defautl formatter
+ * @param param_level Sink level
+ * @return std::shared_ptr<Formatter> Built formatter
+ */
 std::shared_ptr<Formatter> BuildFormatter(Format param_format, loglady::levels::LevelType param_level = loglady::levels::LevelType::INFO);
 
 } // namespace formatter

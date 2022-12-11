@@ -14,11 +14,20 @@ int main() {
         loglady::levels::LevelType::ALL
     );
 
-    std::string message = "My log has a message for you...";
+    std::string message_1 = "My log has a message for you...";
+    std::string message_2 = "Come on then. My log does not judge.";
+    std::string message_3 = "He met the devil. The devil took the form of fire.";
+    std::string message_4 = "This cherry pie is a miracle.";
 
-    loglady::formatter::FormatterAdapter(formatter, message);
+    loglady::formatter::FormatterAdapter(formatter, message_1);
+    loglady::formatter::FormatterAdapter(formatter, message_2);
+    loglady::formatter::FormatterAdapter(formatter, message_3);
+    loglady::formatter::FormatterAdapter(formatter, message_4);
 
-    std::cout << message << std::endl;
+    std::cout << message_1 << std::endl;
+    std::cout << message_2 << std::endl;
+    std::cout << message_3 << std::endl;
+    std::cout << message_4 << std::endl;
 
 return 0;
 }
