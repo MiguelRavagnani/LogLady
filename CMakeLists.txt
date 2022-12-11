@@ -71,6 +71,7 @@ set(SOURCE_FILES
     "${CMAKE_SOURCE_DIR}/src/formatter/formatter_wrapper.cpp"
     "${CMAKE_SOURCE_DIR}/src/formatter/datetime_wrapper.cpp"
     "${CMAKE_SOURCE_DIR}/src/formatter/level_wrapper.cpp"
+    "${CMAKE_SOURCE_DIR}/src/formatter/config_formatter.cpp"
     )
 
 add_executable(loglady ${SOURCE_FILES})
