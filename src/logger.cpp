@@ -11,7 +11,7 @@ int main() {
 
     auto formatter = loglady::formatter::BuildFormatter(
         loglady::formatter::ConfigFormatter(format),
-        loglady::levels::LevelType::ALL
+        loglady::levels::LevelType::WARN
     );
 
     std::string message_1 = "My log has a message for you...";

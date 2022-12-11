@@ -2,6 +2,7 @@
 #define _DATETIME_WRAPPER_
 
 #include <string>
+#include <time.h>
 
 #include "formatter_wrapper.hpp"
 
