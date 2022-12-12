@@ -7,7 +7,7 @@
 int main() {
 
     /* testing formatter */
-    std::string format = "[dd/mm/yy] [hh:mm:ss] [I]";
+    std::string format = "[dd/mm/yy] [hh:mm:ss] [level]";
 
     auto formatter = loglady::formatter::BuildFormatter(
         loglady::formatter::ConfigFormatter(format),

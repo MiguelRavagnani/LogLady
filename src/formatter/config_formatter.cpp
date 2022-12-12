@@ -6,16 +6,21 @@ namespace formatter {
 Format ConfigFormatter(std::string& param_configuration) {
     Format formatter_configuration = Format::NONE;
 
-    if (param_configuration.find("[dd/mm/yy]")) {
+    if (param_configuration.find("[dd/mm/yy]") != std::string::npos) {
         formatter_configuration += Format::DATE;
     }
 
-    if (param_configuration.find("[hh:mm:ss]")) {
+    if (param_configuration.find("[hh:mm:ss]") != std::string::npos) {
         formatter_configuration += Format::TIME;
     }
 
-    if (param_configuration.find("[level]")) {
+    if (param_configuration.find("[l]") != std::string::npos) {
         formatter_configuration += Format::LEVEL;
+    }
+
+    if (param_configuration.find("[level]") != std::string::npos) {
+        formatter_configuration += Format::LEVEL;
+        formatter_configuration += Format::VERBOSE;
     }
 
     return formatter_configuration;
@@ -23,39 +28,16 @@ Format ConfigFormatter(std::string& param_configuration) {
 
 std::shared_ptr<Formatter> BuildFormatter(Format param_format, loglady::levels::LevelType param_level) {
     auto default_formatter = std::shared_ptr<loglady::formatter::Formatter>(new loglady::formatter::DefaultFormatter);
+    bool verbose = false;
 
     if ((param_format & (Format::DATE + Format::TIME)) != Format::NONE) {
         default_formatter = std::shared_ptr<loglady::formatter::FormatterWrapper>(new loglady::formatter::DatetimeWrapper(default_formatter));    
     }
 
-    if ((param_format & Format::LEVEL) != Format::NONE) {
-        switch (param_level)
-        {
-        case loglady::levels::LevelType::INFO :
-            default_formatter = std::shared_ptr<loglady::formatter::FormatterWrapper>(new loglady::formatter::InfoWrapper(default_formatter));
-            break;
-        case loglady::levels::LevelType::WARN :
-            default_formatter = std::shared_ptr<loglady::formatter::FormatterWrapper>(new loglady::formatter::WarnWrapper(default_formatter));
-            break;
-        case loglady::levels::LevelType::ERROR :
-            default_formatter = std::shared_ptr<loglady::formatter::FormatterWrapper>(new loglady::formatter::ErrorWrapper(default_formatter));
-            break;
-        case loglady::levels::LevelType::FATAL :
-            default_formatter = std::shared_ptr<loglady::formatter::FormatterWrapper>(new loglady::formatter::FatalWrapper(default_formatter));
-            break;
-        case loglady::levels::LevelType::TRACE :
-            default_formatter = std::shared_ptr<loglady::formatter::FormatterWrapper>(new loglady::formatter::TraceWrapper(default_formatter));
-            break;
-        case loglady::levels::LevelType::DEBUG :
-            default_formatter = std::shared_ptr<loglady::formatter::FormatterWrapper>(new loglady::formatter::DebugWrapper(default_formatter));
-            break;
-        case loglady::levels::LevelType::ALL :
-            default_formatter = std::shared_ptr<loglady::formatter::FormatterWrapper>(new loglady::formatter::AllWrapper(default_formatter));
-            break;
-        default:
-            break;
-        }
+    verbose = ((param_format & Format::VERBOSE) != Format::NONE) ? true : false;
 
+    if ((param_format & Format::LEVEL) != Format::NONE) {
+        default_formatter = std::shared_ptr<loglady::formatter::FormatterWrapper>(new loglady::formatter::LevelWrapper(default_formatter, param_level, verbose));
     }
 
     return default_formatter;

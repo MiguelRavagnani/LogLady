@@ -1,53 +1,35 @@
 #include "level_wrapper.hpp"
-
 namespace loglady {
 namespace formatter {
 
-void InfoWrapper::Format(std::string& param_message) const {
+void LevelWrapper::Format(std::string& param_message) const {
+    switch (m_level)
+    {
+    case loglady::levels::LevelType::INFO :
+        param_message = ((m_verbose) ? "[INFO] " : "[I] ") + param_message;
+        break;
+    case loglady::levels::LevelType::WARN :
+        param_message = ((m_verbose) ? "[WARN] " : "[W] ") + param_message;
+        break;
+    case loglady::levels::LevelType::ERROR :
+        param_message = ((m_verbose) ? "[ERROR] " : "[E] ") + param_message;
+        break;
+    case loglady::levels::LevelType::FATAL :
+        param_message = ((m_verbose) ? "[FATAL] " : "[F] ") + param_message;
+        break;
+    case loglady::levels::LevelType::TRACE :
+        param_message = ((m_verbose) ? "[TRACE] " : "[T] ") + param_message;
+        break;
+    case loglady::levels::LevelType::DEBUG :
+        param_message = ((m_verbose) ? "[DEBUG] " : "[D] ") + param_message;
+        break;
+    case loglady::levels::LevelType::ALL :
+        param_message = ((m_verbose) ? "[ALL] " : "[A] ") + param_message;
+        break;
+    default:
+        break;
+    }
 
-    param_message = "[I] " + param_message;
-    FormatterWrapper::Format(param_message);
-    return; 
-}
-
-void WarnWrapper::Format(std::string& param_message) const {
-
-    param_message = "[W] " + param_message;
-    FormatterWrapper::Format(param_message);
-    return; 
-}
-
-void ErrorWrapper::Format(std::string& param_message) const {
-
-    param_message = "[E] " + param_message;
-    FormatterWrapper::Format(param_message);
-    return; 
-}
-
-void FatalWrapper::Format(std::string& param_message) const {
-
-    param_message = "[F] " + param_message;
-    FormatterWrapper::Format(param_message);
-    return; 
-}
-
-void TraceWrapper::Format(std::string& param_message) const {
-
-    param_message = "[T] " + param_message;
-    FormatterWrapper::Format(param_message);
-    return; 
-}
-
-void DebugWrapper::Format(std::string& param_message) const {
-
-    param_message = "[D] " + param_message;
-    FormatterWrapper::Format(param_message);
-    return; 
-}
-
-void AllWrapper::Format(std::string& param_message) const {
-
-    param_message = "[A] " + param_message;
     FormatterWrapper::Format(param_message);
     return; 
 }

@@ -15,6 +15,7 @@ enum class Format : uint32_t {
     DATE  = 0x01, 
     TIME  = 0x02, 
     LEVEL = 0x04,
+    VERBOSE = 0x08,
     ALL   = 0xFF 
 };
 

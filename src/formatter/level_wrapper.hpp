@@ -2,96 +2,25 @@
 #define _LEVEL_WRAPPER_
 
 #include <string>
-
 #include "formatter_wrapper.hpp"
+#include "levels.hpp"
 
 namespace loglady {
 namespace formatter {
 
-class InfoWrapper : public FormatterWrapper {
+class LevelWrapper : public FormatterWrapper {
+private:
+    /* Defines if the level formatter should add the level indicator, such as I, or the complete name, such as INFO */
+    bool m_verbose;
+    loglady::levels::LevelType m_level;
 public:
-    InfoWrapper(std::shared_ptr<Formatter> param_formatter) : FormatterWrapper(param_formatter) {}
+    LevelWrapper(
+        std::shared_ptr<Formatter> param_formatter,
+        loglady::levels::LevelType param_level = loglady::levels::LevelType::INFO,
+        bool param_verbose = false) : FormatterWrapper(param_formatter), m_level (param_level), m_verbose (param_verbose) {}
 
     /**
      * @brief Adds a INFO level to the message
-     * 
-     * @param param_message Raw message
-     * @return void Formated string
-     */
-    void Format(std::string& param_message) const override;
-};
-    
-class WarnWrapper : public FormatterWrapper {
-public:
-    WarnWrapper(std::shared_ptr<Formatter> param_formatter) : FormatterWrapper(param_formatter) {}
-
-    /**
-     * @brief Adds a WARN level to the message
-     * 
-     * @param param_message Raw message
-     * @return void Formated string
-     */
-    void Format(std::string& param_message) const override;
-};
-    
-class ErrorWrapper : public FormatterWrapper {
-public:
-    ErrorWrapper(std::shared_ptr<Formatter> param_formatter) : FormatterWrapper(param_formatter) {}
-
-    /**
-     * @brief Adds a ERROR level to the message
-     * 
-     * @param param_message Raw message
-     * @return void Formated string
-     */
-    void Format(std::string& param_message) const override;
-};
-    
-class FatalWrapper : public FormatterWrapper {
-public:
-    FatalWrapper(std::shared_ptr<Formatter> param_formatter) : FormatterWrapper(param_formatter) {}
-
-    /**
-     * @brief Adds a FATAL level to the message
-     * 
-     * @param param_message Raw message
-     * @return void Formated string
-     */
-    void Format(std::string& param_message) const override;
-};
-    
-class TraceWrapper : public FormatterWrapper {
-public:
-    TraceWrapper(std::shared_ptr<Formatter> param_formatter) : FormatterWrapper(param_formatter) {}
-
-    /**
-     * @brief Adds a TRACE level to the message
-     * 
-     * @param param_message Raw message
-     * @return void Formated string
-     */
-    void Format(std::string& param_message) const override;
-};
-    
-class DebugWrapper : public FormatterWrapper {
-public:
-    DebugWrapper(std::shared_ptr<Formatter> param_formatter) : FormatterWrapper(param_formatter) {}
-
-    /**
-     * @brief Adds a DEBUG level to the message
-     * 
-     * @param param_message Raw message
-     * @return void Formated string
-     */
-    void Format(std::string& param_message) const override;
-};
-    
-class AllWrapper : public FormatterWrapper {
-public:
-    AllWrapper(std::shared_ptr<Formatter> param_formatter) : FormatterWrapper(param_formatter) {}
-
-    /**
-     * @brief Adds indicator of ALL levels
      * 
      * @param param_message Raw message
      * @return void Formated string
