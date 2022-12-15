@@ -7,11 +7,11 @@
 int main() {
 
     /* testing formatter */
-    std::string format = "[dd/mm/yy] [hh:mm:ss] [level]";
+    std::string format = "[dd/mm/yy] [hh:mm:ss] [l]";
 
     auto formatter = loglady::formatter::BuildFormatter(
         loglady::formatter::ConfigFormatter(format),
-        loglady::levels::LevelType::WARN
+        loglady::levels::LevelType::TRACE
     );
 
     std::string message_1 = "My log has a message for you...";

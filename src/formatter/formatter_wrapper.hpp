@@ -21,7 +21,10 @@ public:
      * @param param_message Raw message
      * @return void Formated string
      */
-    void Format(std::string& param_message) const override;
+    void Format(std::string& param_message) const override {
+        this->m_wrapper->Format(param_message);
+        return; 
+    }
 };
 
 } // namespace formatter
