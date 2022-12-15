@@ -34,7 +34,11 @@ public:
     void Format(std::string& param_message) const override {}
 };
 
-void FormatterAdapter(std::shared_ptr<Formatter> param_formatter, std::string& param_message);
+void FormatterAdapter(std::shared_ptr<Formatter> param_formatter, std::string& param_message) {
+    param_formatter->Format(param_message);
+    return;
+}
+
 
 } // namespace formatter
 } // namespace loglady
