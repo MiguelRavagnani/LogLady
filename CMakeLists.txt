@@ -45,6 +45,7 @@ set(LOCAL_INCLUDE_DIRS
     "${CMAKE_SOURCE_DIR}/src"
     "${CMAKE_SOURCE_DIR}/src/config"
     "${CMAKE_SOURCE_DIR}/src/formatter"
+    "${CMAKE_SOURCE_DIR}/src/sink"
     )
 
 include_directories(${LOCAL_INCLUDE_DIRS})

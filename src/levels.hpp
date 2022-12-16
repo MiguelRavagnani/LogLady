@@ -11,13 +11,13 @@ namespace levels {
  * @brief Level configuration
  */
 enum class LevelType : uint32_t {
-    INFO  = 0x01, // Core information
-    WARN  = 0x03, // Runtime warning
-    ERROR = 0x07, // Function/method error
-    FATAL = 0x0F, // Runtime error
-    TRACE = 0x1F, // High level debug
-    DEBUG = 0x3F, // Low level debug
-    ALL   = 0xFF, // Complete combined information
+    INFO  = 0x3F, // Core information
+    WARN  = 0x1F, // Runtime warning
+    ERROR = 0x0F, // Function/method error
+    FATAL = 0x07, // Runtime error
+    TRACE = 0x03, // High level debug
+    DEBUG = 0x01, // Low level debug
+    ALL   = 0x00 // Complete combined information
 };
 
 /**
@@ -32,7 +32,7 @@ constexpr inline LevelType operator| (LevelType param_first, LevelType param_sec
         static_cast<std::underlying_type<LevelType>::type>(param_first) |
         static_cast<std::underlying_type<LevelType>::type>(param_second)
         );
-}
+    }
 
 /**
  * @brief Overides the & operator
@@ -46,7 +46,7 @@ constexpr inline LevelType operator& (LevelType param_first, LevelType param_sec
         static_cast<std::underlying_type<LevelType>::type>(param_first) &
         static_cast<std::underlying_type<LevelType>::type>(param_second)
         );
-}
+    }
 
 /**
  * @brief Overides the |= operator
@@ -60,7 +60,7 @@ constexpr inline LevelType& operator|= (LevelType& param_first, LevelType param_
         reinterpret_cast<std::underlying_type<LevelType>::type&>(param_first) |=
         static_cast<std::underlying_type<LevelType>::type>(param_second)
         );
-}
+    }
 
 /**
  * @brief Overides the &= operator
@@ -74,7 +74,7 @@ constexpr inline LevelType& operator&= (LevelType& param_first, LevelType param_
         reinterpret_cast<std::underlying_type<LevelType>::type&>(param_first) &=
         static_cast<std::underlying_type<LevelType>::type>(param_second)
         );
-}
+    }
 
 /**
  * @brief Compares a log level to a level type
@@ -88,7 +88,7 @@ constexpr bool HasLevelEnabled(
     LevelType param_input_level, 
     LevelType param_target_level) {
     return ((param_input_level & param_target_level) == param_target_level) ? true : false;
-}
+    }
 
 } // namespace levels
 } // namespace loglady
