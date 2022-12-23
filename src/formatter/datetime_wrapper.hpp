@@ -9,17 +9,24 @@
 namespace loglady {
 namespace formatter {
 
-class DateWrapper : public FormatterWrapper {
+template <typename Format>
+class DateWrapper: public virtual Wrapper<Format> {
 public:
-    DateWrapper(std::shared_ptr<Formatter> param_formatter) : FormatterWrapper(param_formatter) {}
-
     /**
-     * @brief Adds date and/or time to the message
+     * @brief Construct a new Wrapper object
      * 
-     * @param param_message Raw message
-     * @return void Formated string
+     * @param m_formatter A formater to recieve the wrapper format
      */
-    void Format(std::string& param_message) const override {
+    DateWrapper(Format m_formatter) : Wrapper<Format>(m_formatter) {}
+
+    virtual ~DateWrapper(){}
+    
+    /**
+     * @brief Formats a message with a date
+     * 
+     * @param param_message string message
+     */
+    virtual void Format(std::string& param_message, const levels::LevelType& param_level = levels::LevelType::INFO) {
         time_t now = time(NULL);
         struct tm tstruct;
         char date_buf[40];
@@ -30,23 +37,29 @@ public:
 
         std::string date = date_buf;
 
-        param_message = "["+date+"] " + param_message;
-        FormatterWrapper::Format(param_message);
-        return; 
+        param_message.m_message = "["+date+"] " + param_message.m_message;
+        this->m_formatter.Format(param_message, param_level);
     }
 };
 
-class TimeWrapper : public FormatterWrapper {
+template <typename Format>
+class TimeWrapper: public virtual Wrapper<Format> {
 public:
-    TimeWrapper(std::shared_ptr<Formatter> param_formatter) : FormatterWrapper(param_formatter) {}
+    /**
+     * @brief Construct a new Wrapper object
+     * 
+     * @param m_formatter A formater to recieve the wrapper format
+     */
+    TimeWrapper(Format m_formatter) : Wrapper<Format>(m_formatter) {}
+
+    virtual ~TimeWrapper(){}
 
     /**
-     * @brief Adds date and/or time to the message
+     * @brief Formats a message with a time
      * 
-     * @param param_message Raw message
-     * @return void Formated string
+     * @param param_message string message
      */
-    void Format(std::string& param_message) const override {
+    virtual void Format(std::string& param_message, const levels::LevelType& param_level = levels::LevelType::INFO) {
         time_t now = time(NULL);
         struct tm tstruct;
         char time_buf[40];
@@ -58,8 +71,7 @@ public:
         std::string time = time_buf;
 
         param_message = "["+time+"] " + param_message;
-        FormatterWrapper::Format(param_message);
-        return; 
+        this->m_formatter.Format(param_message, param_level);
     }
 };
 

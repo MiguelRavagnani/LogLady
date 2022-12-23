@@ -4,41 +4,62 @@
 #include <string>
 #include <memory>
 
+#include "levels.hpp"
+
 namespace loglady {
 namespace formatter {
 
-class Formatter {
-public:
-    virtual ~Formatter() {}
+/**
+ * @brief Abstract component, holds the level type, and a setter
+ */
+struct AbstractFormatter
+{
+	AbstractFormatter(...) {}
 
-    /**
-     * @brief Interface for the formatters.
-     *        A formatter will mutate how a message is logged, and which
-     *        informations will be displayed. 
-     * 
-     * @param param_message Raw message
-     * @return void Formated string
-     */
-    virtual void Format(std::string& param_message) const = 0;
+	std::shared_ptr<levels::LevelConfig> m_level_config;
+
+	void SetLevelConfig(std::shared_ptr<levels::LevelConfig> param_level_config) { m_level_config = param_level_config; }
 };
 
-class DefaultFormatter : public Formatter {
+/**
+ * @brief Implements the abstract component
+ */
+class Formatter: public virtual AbstractFormatter{
 public:
+
     /**
-     * @brief Base formatter
-     *        Does not mutate the message by itself 
-     * 
-     * @param param_message Raw message
-     * @return void Formated string
+     * @brief Construct a new Formatter object
      */
-    void Format(std::string& param_message) const override {}
+    Formatter() : AbstractFormatter(){;}
+
+    /**
+     * @brief Formats a message
+     * 
+     * @param param_message string message
+     */
+    virtual void Format(std::string& param_message, const levels::LevelType& param_level = levels::LevelType::INFO) = 0;
+
 };
 
-void FormatterAdapter(std::shared_ptr<Formatter> param_formatter, std::string& param_message) {
-    param_formatter->Format(param_message);
-    return;
-}
+/**
+ * @brief Implements the default component
+ */
+class DefaultFormatter: public virtual Formatter{
+public:
 
+    /**
+     * @brief Construct a new Formatter object
+     */
+    DefaultFormatter() : Formatter(){;}
+
+    /**
+     * @brief Formats a message
+     * 
+     * @param param_message string message
+     */
+    virtual void Format(std::string& param_message, const levels::LevelType& param_level = levels::LevelType::INFO);
+
+};
 
 } // namespace formatter
 } // namespace loglady
