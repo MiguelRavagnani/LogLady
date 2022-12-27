@@ -2,58 +2,75 @@
 #define _LEVEL_WRAPPER_
 
 #include <string>
-#include "formatter_wrapper.hpp"
+#include "formatter.hpp"
 #include "levels.hpp"
 
 namespace loglady {
 namespace formatter {
 
-template <typename Format>
-class LevelWrapper: public virtual Wrapper<Format> {
+class LevelWrapperCompact : public DefaultFormatter {
 public:
-    /**
-     * @brief Construct a new Wrapper object
-     * 
-     * @param m_formatter A formater to recieve the wrapper format
-     */
-    DateWrapper(Format m_formatter) : Wrapper<Format>(m_formatter) {}
-
-    virtual ~DateWrapper(){}
-    
-    /**
-     * @brief Formats a message with a date
-     * 
-     * @param param_message string message
-     */
-    virtual void Format(std::string& param_message, const levels::LevelType& param_level = levels::LevelType::INFO) {
-        switch (param_level)
+    template <levels::LevelType Level>
+    static inline void Format(std::string& param_message) {
+        switch (Level)
         {
         case levels::LevelType::INFO :
-            param_message = ((m_level_config->m_verbose) ? "[INFO] " : "[I] ") + param_message;
+            param_message = "[I] " + param_message;
             break;
         case levels::LevelType::WARN :
-            param_message = ((m_level_config->m_verbose) ? "[WARN] " : "[W] ") + param_message;
+            param_message = "[W] " + param_message;
             break;
         case levels::LevelType::ERROR :
-            param_message = ((m_level_config->m_verbose) ? "[ERROR] " : "[E] ") + param_message;
+            param_message = "[E] " + param_message;
             break;
         case levels::LevelType::FATAL :
-            param_message = ((m_level_config->m_verbose) ? "[FATAL] " : "[F] ") + param_message;
+            param_message = "[F] " + param_message;
             break;
         case levels::LevelType::TRACE :
-            param_message = ((m_level_config->m_verbose) ? "[TRACE] " : "[T] ") + param_message;
+            param_message = "[T] " + param_message;
             break;
         case levels::LevelType::DEBUG :
-            param_message = ((m_level_config->m_verbose) ? "[DEBUG] " : "[D] ") + param_message;
+            param_message = "[D] " + param_message;
             break;
         case levels::LevelType::ALL :
-            param_message = ((m_level_config->m_verbose) ? "[ALL] " : "[A] ") + param_message;
+            param_message = "[A] " + param_message;
             break;
         default:
             break;
         }
+    }
+};
 
-        this->m_formatter.Format(param_message);
+class LevelWrapperVerbose : public DefaultFormatter {
+public:
+    template <levels::LevelType Level>
+    static inline void Format(std::string& param_message) {
+        switch (Level)
+        {
+        case levels::LevelType::INFO :
+            param_message = "[INFO] " + param_message;
+            break;
+        case levels::LevelType::WARN :
+            param_message = "[WARN] " + param_message;
+            break;
+        case levels::LevelType::ERROR :
+            param_message = "[ERROR] " + param_message;
+            break;
+        case levels::LevelType::FATAL :
+            param_message = "[FATAL] " + param_message;
+            break;
+        case levels::LevelType::TRACE :
+            param_message = "[TRACE] " + param_message;
+            break;
+        case levels::LevelType::DEBUG :
+            param_message = "[DEBUG] " + param_message;
+            break;
+        case levels::LevelType::ALL :
+            param_message = "[ALL] " + param_message;
+            break;
+        default:
+            break;
+        }
     }
 };
 

@@ -1,3 +1,5 @@
+#if 0
+
 #ifndef _REGISTRY_HPP_
 #define _REGISTRY_HPP_
 
@@ -40,3 +42,5 @@ public:
 } // loglady
 
 #endif // _REGISTRY_HPP_
+
+#endif

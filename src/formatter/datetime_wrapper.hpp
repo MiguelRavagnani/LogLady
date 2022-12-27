@@ -4,29 +4,15 @@
 #include <string>
 #include <time.h>
 
-#include "formatter_wrapper.hpp"
+#include "formatter.hpp"
 
 namespace loglady {
 namespace formatter {
 
-template <typename Format>
-class DateWrapper: public virtual Wrapper<Format> {
+class DateWrapper_dd_mm_yy : public DefaultFormatter {
 public:
-    /**
-     * @brief Construct a new Wrapper object
-     * 
-     * @param m_formatter A formater to recieve the wrapper format
-     */
-    DateWrapper(Format m_formatter) : Wrapper<Format>(m_formatter) {}
-
-    virtual ~DateWrapper(){}
-    
-    /**
-     * @brief Formats a message with a date
-     * 
-     * @param param_message string message
-     */
-    virtual void Format(std::string& param_message, const levels::LevelType& param_level = levels::LevelType::INFO) {
+    template <levels::LevelType Level>
+    static inline void Format(std::string& param_message) {
         time_t now = time(NULL);
         struct tm tstruct;
         char date_buf[40];
@@ -37,29 +23,32 @@ public:
 
         std::string date = date_buf;
 
-        param_message.m_message = "["+date+"] " + param_message.m_message;
-        this->m_formatter.Format(param_message, param_level);
+        param_message = "["+date+"] " + param_message;
     }
 };
 
-template <typename Format>
-class TimeWrapper: public virtual Wrapper<Format> {
+class DateWrapper_dd_mm_YY : public DefaultFormatter {
 public:
-    /**
-     * @brief Construct a new Wrapper object
-     * 
-     * @param m_formatter A formater to recieve the wrapper format
-     */
-    TimeWrapper(Format m_formatter) : Wrapper<Format>(m_formatter) {}
+    template <levels::LevelType Level>
+    static inline void Format(std::string& param_message) {
+       time_t now = time(NULL);
+        struct tm tstruct;
+        char date_buf[40];
 
-    virtual ~TimeWrapper(){}
+        tstruct = *localtime(&now);
 
-    /**
-     * @brief Formats a message with a time
-     * 
-     * @param param_message string message
-     */
-    virtual void Format(std::string& param_message, const levels::LevelType& param_level = levels::LevelType::INFO) {
+        strftime(date_buf, sizeof(date_buf), "%d/%m/%Y", &tstruct);
+
+        std::string date = date_buf;
+
+        param_message = "["+date+"] " + param_message;
+    }
+};
+
+class TimeWrapper_X : public DefaultFormatter {
+public:
+    template <levels::LevelType Level>
+    static inline void Format(std::string& param_message) {
         time_t now = time(NULL);
         struct tm tstruct;
         char time_buf[40];
@@ -71,7 +60,6 @@ public:
         std::string time = time_buf;
 
         param_message = "["+time+"] " + param_message;
-        this->m_formatter.Format(param_message, param_level);
     }
 };
 

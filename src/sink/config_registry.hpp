@@ -1,15 +1,18 @@
+#if 0
+
 #ifndef _CONFIG_REGISTRY_HPP_
 #define _CONFIG_REGISTRY_HPP_
 
 #include <vector>
 #include <algorithm>
+#include <memory>
 
-#include "registry.hpp"
+#include "sink.hpp"
 
 namespace loglady {
 namespace sink {
 
-class ConfigRegistry : public Registry {
+class Registry {
 public:
     /**
      * @brief Subscribes a new sink to this registry. Once teh NotifySink method has been
@@ -17,7 +20,11 @@ public:
      * 
      * @param param_sink Sink
      */
-    virtual void SubscribeSink(std::shared_ptr<Sink> param_sink) override {
+    template <
+        typename DateFormatter = formatter::DefaultFormatter,
+        typename TimeFormatter = formatter::DefaultFormatter,
+        typename LevelFormatter = formatter::DefaultFormatter>
+    void SubscribeSink(std::shared_ptr<Sink<DateFormatter, TimeFormatter, LevelFormatter>> param_sink) {
         m_sinks.push_back(param_sink);
     }
 
@@ -26,7 +33,11 @@ public:
      * 
      * @param param_sink Sink
      */
-    virtual void UnsubscribeSink(std::shared_ptr<Sink> param_sink) override {
+    template <
+        typename DateFormatter = formatter::DefaultFormatter,
+        typename TimeFormatter = formatter::DefaultFormatter,
+        typename LevelFormatter = formatter::DefaultFormatter>
+    void UnsubscribeSink(std::shared_ptr<Sink<DateFormatter, TimeFormatter, LevelFormatter>> param_sink) {
         auto iterator = std::find(m_sinks.begin(), m_sinks.end(), param_sink);
     
         if (iterator != m_sinks.end()) {
@@ -37,7 +48,7 @@ public:
     /**
      * @brief Executes the every sink registered to this registry
      */
-    virtual void NotifySink(const loglady::levels::LevelType& param_level) override {
+    void NotifySink(const loglady::levels::LevelType& param_level) {
         for (auto sink_iterator : m_sinks) {
             sink_iterator->ProcessRegistry(m_registry_buffer, param_level);
             m_registry_buffer.pop_back();
@@ -47,7 +58,7 @@ public:
     /**
      * @brief Sink it!
      */
-    virtual void SinkIt(std::string& param_message, const loglady::levels::LevelType& param_level) override {
+    void SinkIt(std::string& param_message, const loglady::levels::LevelType& param_level) {
         m_registry_buffer = param_message;
         this->NotifySink(param_level);
     }
@@ -63,3 +74,5 @@ private:
 } // loglady
 
 #endif // _CONFIG_REGISTRY_HPP_
+
+#endif
