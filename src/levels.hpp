@@ -21,6 +21,16 @@ enum class LevelType : uint32_t {
 };
 
 /**
+ * @brief Level data structure
+ */
+struct LevelConfig {
+    LevelConfig( 
+        bool param_verbose = false) : m_verbose(param_verbose) {}
+
+    bool m_verbose;
+};
+
+/**
  * @brief Overides the | operator
  * 
  * @param param_first Prefix

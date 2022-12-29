@@ -4,41 +4,30 @@
 #include <string>
 #include <memory>
 
+#include "levels.hpp"
+
 namespace loglady {
 namespace formatter {
 
+/**
+ * @brief Implements the abstract component
+ */
 class Formatter {
 public:
-    virtual ~Formatter() {}
+    template <levels::LevelType Level>
+    static inline void Format(std::string& param_message) {}
 
-    /**
-     * @brief Interface for the formatters.
-     *        A formatter will mutate how a message is logged, and which
-     *        informations will be displayed. 
-     * 
-     * @param param_message Raw message
-     * @return void Formated string
-     */
-    virtual void Format(std::string& param_message) const = 0;
 };
 
-class DefaultFormatter : public Formatter {
+/**
+ * @brief Implements the default component
+ */
+class DefaultFormatter: public Formatter{
 public:
-    /**
-     * @brief Base formatter
-     *        Does not mutate the message by itself 
-     * 
-     * @param param_message Raw message
-     * @return void Formated string
-     */
-    void Format(std::string& param_message) const override {}
+    template <levels::LevelType Level>
+    static inline void Format(std::string& param_message) {}
+
 };
-
-void FormatterAdapter(std::shared_ptr<Formatter> param_formatter, std::string& param_message) {
-    param_formatter->Format(param_message);
-    return;
-}
-
 
 } // namespace formatter
 } // namespace loglady

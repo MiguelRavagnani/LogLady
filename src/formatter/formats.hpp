@@ -10,13 +10,13 @@ namespace formatter {
 /**
  * @brief Level configuration
  */
-enum class Format : uint32_t {
-    NONE  = 0x00, 
-    DATE  = 0x01, 
-    TIME  = 0x02, 
-    LEVEL = 0x04,
-    VERBOSE = 0x08,
-    ALL   = 0xFF 
+enum class Format : uint16_t {
+    NONE            = 0x000, 
+    DATE_dd_mm_yy   = 0x001,
+    DATE_dd_mm_YY   = 0x002,
+    TIME_hh_mm_ss   = 0x004,
+    LEVEL_compact   = 0x008,
+    LEVEL_verbose   = 0x0010
 };
 
 /**
@@ -111,7 +111,7 @@ constexpr inline Format& operator&= (Format& param_first, Format param_second) {
  * @return true If the bytestring has the target format enabled
  * @return false If the bytestring does not have the target format enabled
  */
-constexpr bool HasLevelEnabled(
+constexpr bool HasEnabled(
     Format param_input_format, 
     Format param_target_format) {
     return ((param_input_format & param_target_format) == param_target_format) ? true : false;
