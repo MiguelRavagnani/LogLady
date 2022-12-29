@@ -13,31 +13,38 @@ It already does tome things, but not much, and the road ahead Is really long.
 
 #include <iostream>
 
-#include "config_registry.hpp"
+#include "registry.hpp"
 #include "console_sink.hpp"
+#include "level_wrapper.hpp"
+#include "datetime_wrapper.hpp"
+
+using namespace loglady;
 
 int main() {
+    auto console_sink_1 = sink::ConsoleSinkBuilder{}
+        .AddConfig<formatter::LevelWrapperCompact>()
+        .AddConfig<formatter::TimeWrapper_X>()
+        .Dispatch();
 
-    loglady::sink::ConfigRegistry config_registry;
-
-    auto console_sink = std::shared_ptr<loglady::sink::Sink>(new loglady::sink::ConsoleSink(loglady::levels::LevelType::WARN));
-
-    console_sink->SetLevel(loglady::levels::LevelType::WARN);
-    console_sink->SetFormat("[dd/mm/yy] [hh:mm:ss] [l] ");
-
-    config_registry.SubscribeSink(console_sink);
+    auto console_sink_2 = sink::ConsoleSinkBuilder{}
+        .AddConfig<formatter::LevelWrapperVerbose>()
+        .AddConfig<formatter::TimeWrapper_X>()
+        .AddConfig<formatter::DateWrapper_dd_mm_YY>()
+        .Dispatch();
+    
+    sink::RegistrySubscription<decltype(console_sink_1), decltype(console_sink_2)> subscription;
 
     std::string message_1 = "My log has a message for you...";
     std::string message_2 = "Come on then. My log does not judge.";
     std::string message_3 = "He met the devil. The devil took the form of fire.";
     std::string message_4 = "This cherry pie is a miracle.";
 
-    config_registry.SinkIt(message_1, loglady::levels::LevelType::WARN);
-    config_registry.SinkIt(message_2, loglady::levels::LevelType::WARN);
-    config_registry.SinkIt(message_3, loglady::levels::LevelType::WARN);
-    config_registry.SinkIt(message_4, loglady::levels::LevelType::DEBUG);
+    subscription.NotifySink<levels::LevelType::DEBUG>(message_1, levels::LevelType::DEBUG);
+    subscription.NotifySink<levels::LevelType::DEBUG>(message_2, levels::LevelType::DEBUG);
+    subscription.NotifySink<levels::LevelType::DEBUG>(message_3, levels::LevelType::DEBUG);
+    subscription.NotifySink<levels::LevelType::DEBUG>(message_4, levels::LevelType::DEBUG);
 
-return 0;
+    return 0;
 }
 
 ```
@@ -49,10 +56,14 @@ return 0;
  - [x] Registry structure
  - [x] Improving basic structures
  - [x] Integration
+ - [X] Refactor formatter + sink
+ - [x] Moving a lot of the run time to compile time
+ - [x] Subscrition based registry
+ - [ ] Add doxygen comments to the refactored code
  - [ ] Integrate threading policy
  - [ ] Add color to sinks
  - [ ] Implement a basic file sink
- - [ ] Refactor formatter + sink
+ - [ ] Simplify the log configuration syntax
  - [ ] TBD
 
  ## Building
