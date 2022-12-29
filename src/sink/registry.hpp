@@ -28,13 +28,14 @@ struct RegistrySubscription
     std::tuple<Args...> m_sinks;
 
     template <levels::LevelType SinkLevel, int... Is>
-    void NotifySink(std::string& param_message, const levels::LevelType& param_level, registry::Index<Is...>)
+    void NotifySink(const char* param_message, const levels::LevelType& param_level, registry::Index<Is...>)
     {
-         auto l = { (std::get<Is>(m_sinks).template ProcessRegistry<SinkLevel>(param_message, param_level), 0) ... };
+        std::string message = param_message;
+        auto l = { (std::get<Is>(m_sinks).template ProcessRegistry<SinkLevel>(message, param_level), 0) ... };
     }
 
     template <levels::LevelType SinkLevel>
-    void NotifySink(std::string& param_message, const levels::LevelType& param_level)
+    void NotifySink(const char* param_message, const levels::LevelType& param_level)
     {
         NotifySink<SinkLevel>(param_message, param_level, registry::GenerateSequency<sizeof...(Args)>());
     }

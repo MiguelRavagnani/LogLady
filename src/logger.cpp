@@ -21,15 +21,10 @@ int main() {
     
     sink::RegistrySubscription<decltype(console_sink_1), decltype(console_sink_2)> subscription;
 
-    std::string message_1 = "My log has a message for you...";
-    std::string message_2 = "Come on then. My log does not judge.";
-    std::string message_3 = "He met the devil. The devil took the form of fire.";
-    std::string message_4 = "This cherry pie is a miracle.";
-
-    subscription.NotifySink<levels::LevelType::DEBUG>(message_1, levels::LevelType::DEBUG);
-    subscription.NotifySink<levels::LevelType::DEBUG>(message_2, levels::LevelType::DEBUG);
-    subscription.NotifySink<levels::LevelType::DEBUG>(message_3, levels::LevelType::DEBUG);
-    subscription.NotifySink<levels::LevelType::DEBUG>(message_4, levels::LevelType::DEBUG);
+    subscription.NotifySink<levels::LevelType::DEBUG>("My log has a message for you...", levels::LevelType::DEBUG);
+    subscription.NotifySink<levels::LevelType::INFO>("Come on then. My log does not judge.", levels::LevelType::DEBUG);
+    subscription.NotifySink<levels::LevelType::INFO>("He met the devil. The devil took the form of fire.", levels::LevelType::DEBUG);
+    subscription.NotifySink<levels::LevelType::DEBUG>("This cherry pie is a miracle.", levels::LevelType::DEBUG);
 
     return 0;
 }
