@@ -10,7 +10,7 @@ namespace levels {
 /**
  * @brief Level configuration
  */
-enum class LevelType : uint32_t {
+enum class LevelType : uint8_t {
     INFO  = 0x3F, // Core information
     WARN  = 0x1F, // Runtime warning
     ERROR = 0x0F, // Function/method error

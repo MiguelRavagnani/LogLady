@@ -59,7 +59,7 @@ public:
 
         std::string time = time_buf;
 
-        param_message = "["+time+"] " + param_message;
+        param_message = "["+time+"] "  + param_message;
     }
 };
 

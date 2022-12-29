@@ -15,7 +15,7 @@ namespace formatter {
 class Formatter {
 public:
     template <levels::LevelType Level>
-    static inline void Format(std::string& param_message) {}
+    static inline void Format(std::stringstream& param_message) {}
 
 };
 
@@ -25,7 +25,7 @@ public:
 class DefaultFormatter: public Formatter{
 public:
     template <levels::LevelType Level>
-    static inline void Format(std::string& param_message) {}
+    static inline void Format(std::stringstream& param_message) {}
 
 };
 
