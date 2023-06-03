@@ -20,6 +20,11 @@ endif()
 
 if(LINUX)
     message(STATUS "Linux OS build")
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} -E create_symlink
+            ${CMAKE_BINARY_DIR}/compile_commands.json
+            ${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json
+    )
     # if required in the future
     # set(ADITIONAL_LIBRARIES "")
 
@@ -36,6 +41,8 @@ elseif(APPLE)
 else()
     message(STATUS "OS not supported")
 endif()
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "")
 
 #-----------------------------------------------------------------#
 # Libraries                                                       #
@@ -59,8 +66,6 @@ elseif (${CMAKE_CXX_STANDARD} MATCHES "17")
 else()
     message(SEND_ERROR "Please check that your compiler supports at least C++11 features and C++11 standard enabled.")
 endif()
-
-add_compile_definitions(CXX_VERSION=${CMAKE_CXX_STANDARD})
 
 #-----------------------------------------------------------------#
 # Source files                                                    #

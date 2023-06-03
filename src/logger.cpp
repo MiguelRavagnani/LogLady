@@ -18,7 +18,7 @@ int main() {
         .AddConfig<formatter::TimeWrapper_X>()
         .AddConfig<formatter::DateWrapper_dd_mm_YY>()
         .Dispatch();
-    
+
     sink::RegistrySubscription<decltype(console_sink_1), decltype(console_sink_2)> subscription;
 
     subscription.NotifySink<levels::LevelType::DEBUG>("My log has a message for you...", levels::LevelType::DEBUG);
